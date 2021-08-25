@@ -1,2 +1,0 @@
-# TwitterLang
-# twitter-go
