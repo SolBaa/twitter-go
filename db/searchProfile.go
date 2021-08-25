@@ -10,24 +10,24 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// BuscoPerfil buesca un perfil en la DB.
-func BuscoPerfil(ID string) (models.User, error) {
+// SearchProfile busca un perfil en la DB.
+func SearchProfile(ID string) (models.User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
 	defer cancel()
-	db := MongoCT.Database("twitter-go")
+	db := MongoCT.Database("twittergo")
 	col := db.Collection("users")
 
-	var perfil models.User
+	var profile models.User
 	objID, _ := primitive.ObjectIDFromHex(ID)
-	condicion := bson.M{
+	condition := bson.M{
 		"_id": objID,
 	}
 
-	err := col.FindOne(ctx, condicion).Decode(&perfil)
-	perfil.Password = ""
+	err := col.FindOne(ctx, condition).Decode(&profile)
+	profile.Password = ""
 	if err != nil {
 		fmt.Println("Registro no encontrado" + err.Error())
-		return perfil, err
+		return profile, err
 	}
-	return perfil, nil
+	return profile, nil
 }

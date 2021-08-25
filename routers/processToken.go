@@ -9,14 +9,14 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
-// Email es el email devielto por el p=modelo que se usara en toos los endpoints
+// Email es el email devuelto por el modelo que se usara en todos los endpoints
 var Email string
 
-// IDUser es el id deuelto dentro del modelo que se usara en todos los ennpoints
+// IDUser es el id devuelto dentro del modelo que se usara en todos los endpoints
 var IDUser string
 
-// ProcesoToken para extraer sus valores
-func ProcesoToken(tk string) (*models.Claim, bool, string, error) {
+// ProcessToken para extraer sus valores
+func ProcessToken(tk string) (*models.Claim, bool, string, error) {
 	miClave := []byte("Golang-Solcha")
 	claims := &models.Claim{}
 
@@ -31,12 +31,12 @@ func ProcesoToken(tk string) (*models.Claim, bool, string, error) {
 		return miClave, nil
 	})
 	if err == nil {
-		_, encontrado, _ := db.CheckIfUserExist(claims.Email)
-		if encontrado == true {
+		_, found, _ := db.CheckIfUserExist(claims.Email)
+		if found {
 			Email = claims.Email
 			IDUser = claims.ID.Hex()
 		}
-		return claims, encontrado, IDUser, nil
+		return claims, found, IDUser, nil
 
 	}
 	if !tkn.Valid {

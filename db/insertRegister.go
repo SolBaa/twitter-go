@@ -13,7 +13,7 @@ func InsertRegister(u models.User) (string, bool, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 
-	db := MongoCT.Database("twitter-go")
+	db := MongoCT.Database("twittergo")
 	col := db.Collection("users")
 
 	u.Password, _ = HashPassword(u.Password)

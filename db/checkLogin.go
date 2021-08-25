@@ -6,17 +6,17 @@ import (
 )
 
 func CheckLogin(email string, password string) (models.User, bool) {
-	usu, find, _ := CheckIfUserExist(email)
-	if find {
-		return usu, false
+	user, find, _ := CheckIfUserExist(email)
+	if !find {
+		return user, false
 	}
 	passWord := []byte(password)
-	passwordDB := []byte(usu.Password)
+	passwordDB := []byte(user.Password)
 
 	err := bcrypt.CompareHashAndPassword(passwordDB, passWord)
 	if err != nil {
-		return usu, false
+		return user, false
 	}
-	return usu, true
+	return user, true
 
 }

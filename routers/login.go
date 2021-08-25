@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	bd "github.com/SolBaa/twitter-go/db"
+	"github.com/SolBaa/twitter-go/db"
 	"github.com/SolBaa/twitter-go/jwt"
 	"github.com/SolBaa/twitter-go/models"
 )
@@ -24,23 +24,23 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(t.Email) == 0 {
-		http.Error(w, "El email del usuario es requerido "+err.Error(), 400)
+		http.Error(w, "El email del usuario es requerido", 400)
 		return
 	}
-	document, exists := bd.CheckLogin(t.Email, t.Password)
+	document, exists := db.CheckLogin(t.Email, t.Password)
 
-	if exists == false {
+	if !exists {
 		http.Error(w, "Usuario y/o contraseña invalidos "+err.Error(), 400)
 		return
 	}
 
-	jwtKey, err := jwt.GeneroJWT(document)
+	jwtKey, err := jwt.GenerateJWT(document)
 	if err != nil {
 		http.Error(w, "Ocurrio un error al intentar generar el Token correspondiente "+err.Error(), 400)
 		return
 	}
 
-	resp := models.RespuestaLogin{
+	resp := models.LoginResponse{
 		Token: jwtKey,
 	}
 	w.Header().Set("Content-Type", "application/json")
