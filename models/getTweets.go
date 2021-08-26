@@ -8,7 +8,7 @@ import (
 
 type GetTweets struct {
 	ID      primitive.ObjectID `bson:"_id" json:"_id"`
-	UserID  string             `bson:"user_id" json:"user_id"`
+	UserID  string             `bson:"userID" json:"user_id"`
 	Message string             `bson:"message" json:"message"`
 	Date    time.Time          `bson:"date" json:"date"`
 }
